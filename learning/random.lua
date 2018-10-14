@@ -6,7 +6,7 @@ framecount = 1
 for i= 0,10000,1 do
   savestate.load(savestate.object(10));
   continue_sim = true;
-  local file = io.open("outputs/random/outputTest_" .. i .. ".csv", "w");
+  --local file = io.open("outputs/random/outputTest_" .. i .. ".csv", "w");
   step_action = 0;
   
   while continue_sim do
@@ -41,8 +41,9 @@ for i= 0,10000,1 do
     score5 = memory.readbyte(229);
     score6 = memory.readbyte(230);
     lives = memory.readbyte(1159);
-    --print(memory.readbyte(340))
-    --print(memory.readbyte(341))
+    --print("" .. memory.readbyte(1024) .. " , " .. memory.readbyte(1025) .. " , " .. memory.readbyte(1026) .. "" .. memory.readbyte(1027) .. " , " .. memory.readbyte(1028) .. " , " .. memory.readbyte(1029) .. "" .. memory.readbyte(1030) .. " , " .. memory.readbyte(1031) .. " , " .. memory.readbyte(1032))
+    print(memory.readbyte(736))
+    print(memory.readbyte(744))
     --print(memory.readbyte(342))
     --print(memory.readbyte(343))
     --print(memory.readbyte(344))
@@ -54,25 +55,25 @@ for i= 0,10000,1 do
   
     score = score0 * 10^6 + score1 * 10^5 + score2 * 10^4 + score3 * 10^3 + score4 * 10^2 + score5 * 10 + score6;
     
-    file:write(step_action);
-    file:write(",");
-    file:write(memXPos);
-    file:write(",");
-    file:write(score);
-    file:write(",");
-    file:write(lives);
-    file:write("\n");
+    --file:write(step_action);
+    --file:write(",");
+    --file:write(memXPos);
+    --file:write(",");
+    --file:write(score);
+    --file:write(",");
+    --file:write(lives);
+    --file:write("\n");
 
     framecount = framecount + 1
     step_action = step_action + 1
     emu.frameadvance();
 
-    if lives < 2 or score > 5000 then
-      continue_sim = false;
-    end;
+    --if lives < 2 or score > 5000 then
+    --  continue_sim = false;
+    --end;
   end;
 
-  file:close();
+  --file:close();
 end;
 
 -- optimize calcs.  don't need to check everything on every frame
