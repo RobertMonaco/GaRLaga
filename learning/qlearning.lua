@@ -1,6 +1,6 @@
 --emu:loadrom('galaga.zip')
 --require("numlua")
-
+emu.pause()
 function append_zeros_to_left(value, length)
   value_str = "" .. value
   while string.len(value_str) < length do
@@ -100,6 +100,9 @@ function update_table(prev_state,curr_state,a, r,dr, lr)
   max_val = math.max(q_table[curr_state][0],q_table[curr_state][1],q_table[curr_state][2],q_table[curr_state][3],q_table[curr_state][4],q_table[curr_state][5])
   q_table[prev_state][a] = q_table[prev_state][a] + lr * (r + dr * max_val - q_table[prev_state][a])
 end;
+
+emu.speedmode("turbo")
+emu.unpause()
 
 inputTable = joypad.read(1);
 framecount = 1
