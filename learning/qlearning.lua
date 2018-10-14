@@ -11,6 +11,7 @@ function append_zeros_to_left(value, length)
 end;
 
 --initialize qtable
+print("Initializing table...")
 q_table = {}
 keys = {}
 --generate all possible strings
@@ -18,7 +19,7 @@ for pos=8,183,1 do
   pos_str = append_zeros_to_left(pos,3)
   for enemy=0,88888,1 do
     enemy_str = append_zeros_to_left(enemy,5)
-    if string.find(enemy_str,"9") ~= nil then
+    if string.find(enemy_str,"9") == nil then
       for bullet1=0,1,1 do
         for bullet2=0,1,1 do
           final_str= "" .. pos_str .. enemy_str .. bullet1 .. bullet2
@@ -35,6 +36,7 @@ for k=1,#keys,1 do
   q_table[keys[k]] = {0,0,0,0,0}
 end;
 
+print("Table initialized.")
 
 --decay epsilon value to increase learing over time
 function decay_epsilon(prog_count, e)
