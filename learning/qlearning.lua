@@ -214,10 +214,8 @@ for i= 0,10000,1 do
   file:write(i);
   file:write(",");
   file:write(score);
-  file:write("\n");
-
-
-  file:close();
+  file:write("\n");  
 end;
+file:close();
 
 -- optimize calcs.  don't need to check everything on every frame
