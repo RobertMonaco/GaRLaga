@@ -56,9 +56,9 @@ function choose_action(current_state,q_table,epsilon)
   end;
   
   --choose action that grants max q given current_state
-  max_q = math.max(q_table[current_state][0],q_table[current_state][1],q_table[current_state][2],q_table[current_state][3],q_table[current_state][4],q_table[current_state][5]);
+  max_q = math.max(q_table[current_state][1],q_table[current_state][2],q_table[current_state][3],q_table[current_state][4],q_table[current_state][5],q_table[current_state][6]);
   next_action_list = {}
-  for i=0,5,1 do
+  for i=1,6,1 do
     if q_table[current_state][i] == max_q then
       table.insert(next_action_list,i)
     end;
@@ -97,7 +97,7 @@ end;
 --update q_table based on current q values, reward, discount rate, learning rate
 function update_table(prev_state,curr_state,a, r,dr, lr)
   --find maximum q value based on new state
-  max_val = math.max(q_table[curr_state][0],q_table[curr_state][1],q_table[curr_state][2],q_table[curr_state][3],q_table[curr_state][4],q_table[curr_state][5])
+  max_val = math.max(q_table[curr_state][1],q_table[curr_state][2],q_table[curr_state][3],q_table[curr_state][4],q_table[curr_state][5],q_table[curr_state][6])
   q_table[prev_state][a] = q_table[prev_state][a] + lr * (r + dr * max_val - q_table[prev_state][a])
 end;
 
@@ -155,7 +155,7 @@ for i= 0,10000,1 do
       state = get_state()
 
       --update q_table
-      
+      update_table(prev_state,state,action_val,reward,gamma, alpha)
 
       --clear joypad
       for k,v in pairs(inputTable) do
@@ -163,7 +163,7 @@ for i= 0,10000,1 do
       end;
       
       --choose action
-      action_val = choose_action(curr_state, q_table, epsilon)
+      action_val = choose_action(state, q_table, epsilon)
 
       --left; no shoot
       if action_val == 0 then
