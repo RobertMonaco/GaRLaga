@@ -75,11 +75,11 @@ end;
 --get reward based on previous score and new current score
 function get_reward(score, past_score)
   if score - past_score == 0 then
-    return -1;
-  elseif score - past_score > 0 then
     return 0;
+  elseif score - past_score > 0 then
+    return 1;
   end;
-  return -1;
+  return 0;
 end;
 
 --get state from memory bytes
@@ -116,10 +116,9 @@ alpha = 0.1
 gamma = 0.9
 epsilon = 1
 counter = 0;
-
+local file = io.open("outputs/qlearning/experiment0.csv", "w");
 for i= 0,10000,1 do
   savestate.load(savestate.object(10));
-  local file = io.open("outputs/qlearning/e0/outputTest_" .. i .. ".csv", "w");
   framecount = 1;
   score = 0;
   past_score = 0;
@@ -201,16 +200,6 @@ for i= 0,10000,1 do
       end;
     end;
 
-    --Write output to file
-    file:write(counter);
-    file:write(",");
-    file:write(memXPos);
-    file:write(",");
-    file:write(score);
-    file:write(",");
-    file:write(lives);
-    file:write("\n");
-
     --Increase frame count
     framecount = framecount + 1
     
@@ -220,6 +209,13 @@ for i= 0,10000,1 do
     --Advance emulation frame
     emu.frameadvance();
   end;
+
+  --Write output to file
+  file:write(i);
+  file:write(",");
+  file:write(score);
+  file:write("\n");
+
 
   file:close();
 end;
