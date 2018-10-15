@@ -74,9 +74,9 @@ end;
 
 --get reward based on previous score and new current score
 function get_reward(score, past_score)
-  if past_score - score == 0 then
+  if score - past_score == 0 then
     return -1;
-  elseif past_score - score > 0 then
+  elseif score - past_score > 0 then
     return 0;
   end;
   return -1;
@@ -117,9 +117,9 @@ gamma = 0.9
 epsilon = 1
 counter = 0;
 
-for i= 0,1000,1 do
+for i= 0,10000,1 do
   savestate.load(savestate.object(10));
-  local file = io.open("outputs/qlearning/outputTest_" .. i .. ".csv", "w");
+  local file = io.open("outputs/qlearning/e0/outputTest_" .. i .. ".csv", "w");
   framecount = 1;
   score = 0;
   past_score = 0;
