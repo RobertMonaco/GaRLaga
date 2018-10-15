@@ -40,7 +40,7 @@ print("Table initialized.")
 
 --decay epsilon value to increase learing over time
 function decay_epsilon(prog_count, e)
-  if prog_count % 60 then
+  if prog_count % 10 then
     e = e - 0.1
   end;
   if e > 0 then
@@ -108,22 +108,29 @@ emu.speedmode("turbo")
 emu.unpause()
 
 inputTable = joypad.read(1);
-framecount = 1
-for i= 0,10000,1 do
+
+
+
+
+alpha = 0.1
+gamma = 0.9
+epsilon = 1
+counter = 0;
+
+for i= 0,1000,1 do
   savestate.load(savestate.object(10));
   local file = io.open("outputs/qlearning/outputTest_" .. i .. ".csv", "w");
   framecount = 1;
-  counter = 0;
   score = 0;
   past_score = 0;
-  lives = memory.readbyte(1159);
-  state = "00800"
-  prev_state = "00800"
   reward = -1
   action_val = 1
-  alpha = 0.1
-  gamma = 0.9
-  epsilon = 1
+  framecount = 1
+  state = get_state()
+  prev_state = state
+  lives = memory.readbyte(1159);
+  --decay epsilon
+  epsilon = decay_epsilon(counter, epsilon)
   
   --Run Simulation until first death
   while lives >= 2 do
@@ -131,8 +138,7 @@ for i= 0,10000,1 do
     --set joypad presses
     joypad.set(1, inputTable)
 
-    --decay epsilon
-    epsilon = decay_epsilon(counter, epsilon)
+
 
     --Update action after 20 frames
     if(framecount % 20 == 0) then
